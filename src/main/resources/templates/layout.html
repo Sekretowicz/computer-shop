@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${pageTitle} ?: 'Мой сайт'">Мой сайт</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+
+<header>
+  <h1>Магазин компьютеров</h1>
+  <nav>
+    <a th:href="@{/home}">Главная</a>
+    <a th:href="@{/processors}">Процессоры</a>
+    <a th:href="@{/graphics-cards}">Видеокарты</a>
+  </nav>
+</header>
+
+<main>
+  <div class="page-content">
+    <div th:replace="~{${contentTemplate} :: content}"></div>
+  </div>
+</main>
+
+<footer>
+  <p>© 2025 Computer Shop</p>
+</footer>
+
+</body>
+</html>

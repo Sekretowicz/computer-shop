@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Процессоры</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- ШАПКА -->
+  <header class="site-header">
+    <div class="site-header-inner">
+      <a class="brand" th:href="@{/}">COMPUTER SHOP</a>
+
+      <nav class="nav">
+        <a th:href="@{/processors}" class="active">Процессоры</a>
+        <a th:href="@{/graphics-cards}">Видеокарты</a>
+        <a th:href="@{/builds}">Сборки ПК</a>
+        <a th:href="@{/cart}">Корзина</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ОСНОВНОЙ КОНТЕНТ -->
+  <main>
+    <div class="container">
+
+      <section class="section">
+
+        <!-- Заголовок слева + фильтр справа -->
+        <div class="flex-between mb-md">
+
+          <!-- Левая часть -->
+          <div>
+            <h1>Процессоры</h1>
+            <p class="text-muted">
+              Подбор процессоров по характеристикам: частота, количество ядер и цена.
+            </p>
+          </div>
+
+          <!-- Правая часть: КОМПАКТНЫЙ ФИЛЬТР -->
+          <form action="/processors" method="get" class="filter-horizontal">
+
+            <h3 class="filterh-title">Фильтр</h3>
+
+            <!-- Производитель -->
+            <div class="filterh-row">
+              <span class="filterh-label">Бренд:</span>
+              <input type="text"
+                     name="title"
+                     value=""
+              style="width: 180px !important; flex: 0 0 180px !important;">
+            </div>
+
+            <!-- Цена -->
+            <div class="filterh-row">
+              <span class="filterh-label">Цена:</span>
+              <span>от</span>
+              <input type="number" name="minPrice" value="">
+              <span>до</span>
+              <input type="number" name="maxPrice" value="">
+            </div>
+
+            <!-- Ядра -->
+            <div class="filterh-row">
+              <span class="filterh-label">Ядра:</span>
+              <span>от</span>
+              <input type="number" name="minCores" value="">
+              <span>до</span>
+              <input type="number" name="maxCores" value="">
+            </div>
+
+            <!-- Частота -->
+            <div class="filterh-row">
+              <span class="filterh-label">Частота:</span>
+              <span>от</span>
+              <input type="number" step="0.1" name="minFrequency" value="">
+              <span>до</span>
+              <input type="number" step="0.1" name="maxFrequency" value="">
+            </div>
+
+            <button type="submit" class="btn btn-primary filterh-apply">
+              Применить
+            </button>
+
+          </form>
+        </div>
+
+        <!-- Если нет процессоров -->
+        <div class="alert alert-info" th:if="${#lists.isEmpty(processors)}">
+          Пока нет ни одного процессора в базе.
+        </div>
+
+        <!-- Таблица процессоров -->
+        <div class="table-wrapper" th:if="${!#lists.isEmpty(processors)}">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Название</th>
+              <th>Ядра</th>
+              <th>Частота, ГГц</th>
+              <th>Цена</th>
+              <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cpu : ${processors}">
+              <td th:text="${cpu.title}">Intel Core i5-12400F</td>
+              <td th:text="${cpu.cores}">6</td>
+              <td th:text="${cpu.frequency}">4.2</td>
+              <td th:text="${cpu.price + ' ₽'}">19999 ₽</td>
+              <td>
+                <a th:href="@{/processors/{id}(id=${cpu.id})}"
+                   class="btn btn-outline btn-sm">Подробнее</a>
+
+                <form th:action="@{/cart/add}" method="post" style="display:inline;">
+                  <input type="hidden" name="productType" value="CPU">
+                  <input type="hidden" name="productId" th:value="${cpu.id}">
+                  <button type="submit" class="btn btn-primary btn-sm">В корзину</button>
+                </form>
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ФУТЕР -->
+  <footer class="site-footer">
+    © 2025 Computer Shop — учебный проект на Java + Spring + Thymeleaf
+  </footer>
+
+</div>
+</body>
+</html>

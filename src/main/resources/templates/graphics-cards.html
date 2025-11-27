@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Видеокарты</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div th:replace="fragments :: site-header"></div>
+
+  <!-- MAIN -->
+  <main>
+    <div class="container">
+
+      <section class="section">
+        <div class="flex-between mb-md">
+          <div>
+            <h1>Видеокарты</h1>
+            <p class="text-muted">
+              Подбор видеокарт по характеристикам: объём памяти, чип и цена.
+            </p>
+          </div>
+
+          <!-- поиск по названию -->
+          <form th:action="@{/graphics-cards}" method="get"
+                class="form" style="max-width: 260px;">
+            <div class="form-group">
+              <label for="q">Поиск по названию</label>
+              <input id="q" name="q" type="text"
+                     placeholder="Например, RTX"
+                     th:value="${q}">
+            </div>
+            <button type="submit" class="btn btn-outline btn-sm">Найти</button>
+          </form>
+        </div>
+
+        <!-- если нет видеокарт -->
+        <div class="alert alert-info" th:if="${#lists.isEmpty(graphicsCards)}">
+          Пока нет ни одной видеокарты в базе.
+        </div>
+
+        <!-- таблица видеокарт -->
+        <div class="table-wrapper" th:if="${!#lists.isEmpty(graphicsCards)}">
+          <table class="table">
+            <thead>
+            <tr>
+              <th>Название</th>
+              <th>Память, ГБ</th>
+              <th>Цена</th>
+              <th>Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="graphics-card : ${graphicsCards}">
+              <td th:text="${graphics-card.title}">NVIDIA GeForce RTX 4060</td>
+              <td th:text="${graphics-card.memory}">8</td>
+              <td th:text="${graphics-card.price + ' ₽'}">39999 ₽</td>
+              <td>
+
+                <a th:href="@{/graphics-cards/{id}(id=${graphics-card.id})}"
+                   class="btn btn-outline btn-sm">Подробнее</a>
+
+                <form th:action="@{/cart/add}" method="post"
+                      style="display:inline;">
+                  <input type="hidden" name="productType" value="graphics-card">
+                  <input type="hidden" name="productId" th:value="${graphics-card.id}">
+
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    В корзину
+                  </button>
+                </form>
+
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <div th:replace="fragments :: site-footer"></div>
+
+</div>
+</body>
+</html>

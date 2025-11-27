@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${processor.title} + ' — процессор'">Процессор</title>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- HEADER -->
+  <div th:replace="fragments :: site-header"></div>
+
+  <!-- MAIN -->
+  <main>
+    <div class="container">
+
+      <section class="section">
+
+        <!-- Хлебные крошки / назад -->
+        <div class="mb-sm">
+          <a th:href="@{/processors}" class="link-back">← Ко всем процессорам</a>
+        </div>
+
+        <!-- Заголовок + цена -->
+        <div class="flex-between flex-center mb-md">
+          <div>
+            <h1 th:text="${processor.title}">Intel Core i5-12400F</h1>
+            <p class="text-muted">
+              Подробная информация о выбранном процессоре.
+            </p>
+          </div>
+
+          <div class="text-right">
+            <div class="price-lg"
+                 th:text="${processor.price} + ' ₽'">19 999 ₽</div>
+          </div>
+        </div>
+
+        <!-- Основные характеристики -->
+        <div class="card mb-md">
+          <h2 class="card-title">Характеристики</h2>
+          <table class="table specs-table">
+            <tbody>
+            <tr>
+              <th>Количество ядер</th>
+              <td th:text="${processor.cores}">6</td>
+            </tr>
+            <tr>
+              <th>Базовая частота, МГц</th>
+              <td th:text="${processor.frequency}">2500</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Действия: в корзину -->
+        <div class="card">
+          <h2 class="card-title">Покупка</h2>
+          <p class="mb-sm">
+            Добавьте процессор в корзину, чтобы оформить заказ позже.
+          </p>
+
+          <form th:action="@{/cart/add}" method="post" class="form-inline">
+            <input type="hidden" name="productType" value="CPU">
+            <input type="hidden" name="productId" th:value="${processor.id}">
+
+            <button type="submit" class="btn btn-primary">
+              Добавить в корзину
+            </button>
+          </form>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <div th:replace="fragments :: site-footer"></div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragments</title>
+</head>
+<body>
+
+<!-- ===== HEADER FRAGMENT ===== -->
+<header th:fragment="site-header" class="site-header">
+    <div class="site-header-inner">
+        <a class="brand" th:href="@{/home}">Computer Shop</a>
+
+        <nav class="nav">
+            <a th:href="@{/processors}"
+               th:classappend="${activePage} == 'processors' ? ' active' : ''">
+                Процессоры
+            </a>
+            <a th:href="@{/graphics-cards}"
+               th:classappend="${activePage} == 'graphics-cards' ? ' active' : ''">
+                Видеокарты
+            </a>
+            <a th:href="@{/builds}"
+               th:classappend="${activePage} == 'builds' ? ' active' : ''">
+                Сборки ПК
+            </a>
+            <a th:href="@{/cart}"
+               th:classappend="${activePage} == 'cart' ? ' active' : ''">
+                Корзина
+            </a>
+        </nav>
+    </div>
+</header>
+
+<!-- ===== FOOTER FRAGMENT ===== -->
+<footer th:fragment="site-footer" class="site-footer text-center">
+    © 2025 Computer Shop — учебный проект на Java + Spring + Thymeleaf
+</footer>
+
+</body>
+</html>

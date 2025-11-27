@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Computer Shop</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+
+<body>
+<div class="wrapper">
+
+    <!-- ====================== HEADER ====================== -->
+    <header class="site-header">
+        <div class="site-header-inner">
+            <a class="brand" th:href="@{/home}">Computer Shop</a>
+
+            <nav class="nav">
+                <a th:href="@{/processors}">Процессоры</a>
+                <a th:href="@{/gpus}">Видеокарты</a>
+                <a th:href="@{/builds}">Сборки ПК</a>
+                <a th:href="@{/cart}">Корзина</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ====================== MAIN ====================== -->
+    <main>
+        <div class="container">
+
+            <!-- HERO SECTION -->
+            <section class="section text-center">
+                <h1>Добро пожаловать в Computer Shop</h1>
+                <p class="text-secondary-muted" style="max-width: 600px; margin: 0 auto;">
+                    Магазин комплектующих и конфигуратор сборок ПК.
+                    Выбирайте лучшие процессоры, видеокарты и создавайте идеальную сборку.
+                </p>
+
+                <div style="margin-top: 1.5rem;">
+                    <a th:href="@{/builds}" class="btn btn-primary btn-lg">Создать сборку</a>
+                </div>
+            </section>
+
+            <!-- CATEGORY GRID -->
+            <section class="section">
+                <h2 class="text-center">Категории</h2>
+
+                <div class="grid grid-3 mt-md">
+
+                    <!-- PROCESSORS -->
+                    <a th:href="@{/processors}" class="card" style="text-decoration: none;">
+                        <div class="card-header">
+                            <span class="card-title">Процессоры</span>
+                        </div>
+                        <div class="card-body text-secondary-muted">
+                            Большой выбор CPU для игр, работы и серверных задач.
+                        </div>
+                    </a>
+
+                    <!-- GPUS -->
+                    <a th:href="@{/gpus}" class="card" style="text-decoration: none;">
+                        <div class="card-header">
+                            <span class="card-title">Видеокарты</span>
+                        </div>
+                        <div class="card-body text-secondary-muted">
+                            Актуальные модели NVIDIA и AMD.
+                        </div>
+                    </a>
+
+                    <!-- BUILDS -->
+                    <a th:href="@{/builds}" class="card" style="text-decoration: none;">
+                        <div class="card-header">
+                            <span class="card-title">Сборки ПК</span>
+                        </div>
+                        <div class="card-body text-secondary-muted">
+                            Готовые конфигурации или сборка под ваши задачи.
+                        </div>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- POPULAR ITEMS -->
+            <section class="section">
+                <h2 class="text-center">Популярные товары</h2>
+
+                <div class="grid grid-3 mt-md">
+
+                    <!-- ===============================
+                         Популярные процессоры
+                         (пример Thymeleaf foreach)
+                     =============================== -->
+                    <div class="card" th:each="cpu : ${popularCPUs}">
+                        <div class="card-header">
+                            <span class="card-title" th:text="${cpu.name}">Intel Core i5</span>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="price" th:text="${cpu.price + ' ₽'}">19999 ₽</div>
+                            <div class="product-meta" th:text="'Ядер: ' + ${cpu.cores} + ', Частота: ' + ${cpu.frequency} + ' ГГц'">
+                                Ядер: 6, Частота: 4.2 ГГц
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <a th:href="@{/processors/{id}(id=${cpu.id})}" class="btn btn-outline btn-sm">Подробнее</a>
+                            <a th:href="@{/cart/add('cpu', ${cpu.id})}" class="btn btn-primary btn-sm">В корзину</a>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- ====================== FOOTER ====================== -->
+    <footer class="site-footer text-center">
+        © 2025 Computer Shop — учебный проект на Java + Spring + Thymeleaf
+    </footer>
+
+</div>
+</body>
+</html>
