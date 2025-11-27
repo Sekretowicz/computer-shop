@@ -55,6 +55,8 @@ public class ProcessorService {
                 where(predicates.toArray(new Predicate[0]))     //Выглядит как магия, но именно так превращаем список в массив
                 .orderBy(cb.asc(root.get("price")));            //В порядке возрастания цены
 
+        System.out.println("Hello world!");
+
         //Выполняем запрос и сразу возвращаем список (одной строчкой)
         return em.createQuery(cq).getResultList();
     }
