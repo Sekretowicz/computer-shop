@@ -1,6 +1,5 @@
 package com.sekretowicz.computer_shop.service;
 
-import com.sekretowicz.computer_shop.dto.ProcessorDto;
 import com.sekretowicz.computer_shop.model.Processor;
 import com.sekretowicz.computer_shop.repo.ProcessorRepo;
 import jakarta.persistence.EntityManager;
@@ -54,8 +53,6 @@ public class ProcessorService {
         cq.select(root).
                 where(predicates.toArray(new Predicate[0]))     //Выглядит как магия, но именно так превращаем список в массив
                 .orderBy(cb.asc(root.get("price")));            //В порядке возрастания цены
-
-        System.out.println("Hello world!");
 
         //Выполняем запрос и сразу возвращаем список (одной строчкой)
         return em.createQuery(cq).getResultList();
