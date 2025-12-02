@@ -16,7 +16,7 @@ public class ShortPcBuildDto {
     private int totalPrice;
 
     public ShortPcBuildDto(PcBuild model) {
-        this.buildTitle = model.getName();
+        this.buildTitle = model.getTitle();
         this.processorTitle = model.getProcessor().getTitle();
         this.graphicsCardTitle = model.getGraphicsCard().getTitle();
         this.totalPrice = model.getProcessor().getPrice() + model.getGraphicsCard().getPrice();
