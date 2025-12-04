@@ -63,13 +63,13 @@ public class DataInitializer implements CommandLineRunner {
 
         // Builds
         PcBuild gamingPc = new PcBuild();
-        gamingPc.setName("Gaming PC #1");
+        gamingPc.setTitle("Gaming PC #1");
         gamingPc.setProcessor(ryzen5);
         gamingPc.setGraphicsCard(rtx3060);
         pcBuildRepository.save(gamingPc);
 
         PcBuild budgetPc = new PcBuild();
-        budgetPc.setName("Budget PC");
+        budgetPc.setTitle("Budget PC");
         budgetPc.setProcessor(i5);
         budgetPc.setGraphicsCard(rx6600);
         pcBuildRepository.save(budgetPc);
