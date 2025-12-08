@@ -16,10 +16,10 @@ public class GraphicsCardController {
 
     @GetMapping
     public List<GraphicsCardDto> get (@RequestParam(required = false) String title,
-                                   @RequestParam(required = false) Integer maxMemory,
-                                   @RequestParam(required = false) Integer maxPrice,
-                                   @RequestParam(required = false) Integer minMemory,
-                                   @RequestParam(required = false) Integer minPrice) {
+                                      @RequestParam(required = false) Integer maxMemory,
+                                      @RequestParam(required = false) Integer maxPrice,
+                                      @RequestParam(required = false) Integer minMemory,
+                                      @RequestParam(required = false) Integer minPrice) {
         return service.get(title, minMemory, maxMemory, minPrice, maxPrice).stream().map(GraphicsCardDto::new).toList();
     }
 }

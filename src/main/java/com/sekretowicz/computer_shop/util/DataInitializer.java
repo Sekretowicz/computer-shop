@@ -29,7 +29,7 @@ public class DataInitializer implements CommandLineRunner {
     @Transactional
     public void run(String... args) {
         // Do not duplicate data on every restart
-        if (processorRepository.count() > 0 || graphicsCardRepository.count() > 0 || pcBuildRepository.count() > 0) {
+        /* if (processorRepository.count() > 0 || graphicsCardRepository.count() > 0 || pcBuildRepository.count() > 0) {
             return;
         }
 
@@ -43,7 +43,7 @@ public class DataInitializer implements CommandLineRunner {
 
         Processor ryzen5 = new Processor();
         ryzen5.setTitle("AMD Ryzen 5 5600X");
-        ryzen5.setCores(6);
+        ryzen5.setCores(8);
         ryzen5.setFrequency(3700);
         ryzen5.setPrice(20000);
         processorRepository.save(ryzen5);
@@ -76,6 +76,6 @@ public class DataInitializer implements CommandLineRunner {
 
 
         List<Object> foo = new ArrayList<Object>();
-
+*/
     }
 }

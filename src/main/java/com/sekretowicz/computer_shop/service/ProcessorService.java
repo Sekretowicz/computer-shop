@@ -23,10 +23,11 @@ public class ProcessorService {
 
     //Поиск процессоров по заданным параметрам - все они необязательные
     @Transactional
-    public List<Processor> get(Integer minPrice,
-                                  Integer maxPrice,
-                                  Integer minFrequency,
-                                  Integer maxFrequency) {
+    public List<Processor> get(String title,
+                               Integer minPrice,
+                               Integer maxPrice,
+                               Integer minFrequency,
+                               Integer maxFrequency) {
         //Создаем билдер, сам объект запроса (CriteriaQuery), объект таблицы (Root)
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Processor> cq = cb.createQuery(Processor.class);
@@ -36,6 +37,9 @@ public class ProcessorService {
 
         //Добавляем только указанные параметры. Если какие-то не указаны (null) - по ним не ищем
         //ge - greater equal, le - less equal и т.д. (читай документацию)
+        if (title != null) {
+            predicates.add(cb.like(root.get("title"), "%" + title + "%"));
+        }
         if (minPrice != null) {
             predicates.add(cb.ge(root.get("price"), minPrice));
         }   
@@ -48,7 +52,6 @@ public class ProcessorService {
         if (maxFrequency != null) {
             predicates.add(cb.le(root.get("frequency"), maxFrequency));
         }
-
         //Формируем запрос
         cq.select(root).
                 where(predicates.toArray(new Predicate[0]))     //Выглядит как магия, но именно так превращаем список в массив

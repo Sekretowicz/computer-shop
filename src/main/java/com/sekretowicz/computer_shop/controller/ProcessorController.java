@@ -14,11 +14,12 @@ public class ProcessorController {
     private ProcessorService service;
 
     @GetMapping
-    public List<ProcessorDto> get(@RequestParam(required = false) Integer minPrice,
+    public List<ProcessorDto> get(@RequestParam(required = false) String title,
+                                  @RequestParam(required = false) Integer minPrice,
                                   @RequestParam(required = false) Integer maxPrice,
                                   @RequestParam(required = false) Integer minFrequency,
                                   @RequestParam(required = false) Integer maxFrequency) {
-        return service.get(minPrice, maxPrice, minFrequency, maxFrequency)
+        return service.get(title, minPrice, maxPrice, minFrequency, maxFrequency)
                 .stream()
                 .map(ProcessorDto::new)
                 .toList();

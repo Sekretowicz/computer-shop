@@ -31,12 +31,13 @@ public class HomeController {
     }
 
     @GetMapping("/processors")
-    public String listProcessors(@RequestParam(required = false) Integer minPrice,
+    public String listProcessors(@RequestParam(required = false) String title,
+                                 @RequestParam(required = false) Integer minPrice,
                                  @RequestParam(required = false) Integer maxPrice,
                                  @RequestParam(required = false) Integer minFrequency,
                                  @RequestParam(required = false) Integer maxFrequency,
             Model model) {
-        List<Processor> processors = processorService.get(minPrice, maxPrice, minFrequency, maxFrequency); // или твой метод
+        List<Processor> processors = processorService.get(title, minPrice, maxPrice, minFrequency, maxFrequency); // или твой метод
         model.addAttribute("processors", processors);
         return "processors"; // -> processors.html
     }
