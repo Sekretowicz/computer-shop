@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProcessorDto {
+    private String title;  // Наименование или производитель
     private int price;      //Стоимость
-    private String title;   // Наименование или производитель
     private int frequency;       // Частота процессора
     private int cores;      // Число ядер
 

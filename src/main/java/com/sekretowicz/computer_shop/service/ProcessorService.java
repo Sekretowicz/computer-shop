@@ -1,5 +1,6 @@
 package com.sekretowicz.computer_shop.service;
 
+import com.sekretowicz.computer_shop.dto.ProcessorDto;
 import com.sekretowicz.computer_shop.model.Processor;
 import com.sekretowicz.computer_shop.repo.ProcessorRepo;
 import jakarta.persistence.EntityManager;
@@ -8,8 +9,10 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +30,9 @@ public class ProcessorService {
                                Integer minPrice,
                                Integer maxPrice,
                                Integer minFrequency,
-                               Integer maxFrequency) {
+                               Integer maxFrequency,
+                               Integer minCores,
+                               Integer maxCores) {
         //Создаем билдер, сам объект запроса (CriteriaQuery), объект таблицы (Root)
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Processor> cq = cb.createQuery(Processor.class);
@@ -52,6 +57,12 @@ public class ProcessorService {
         if (maxFrequency != null) {
             predicates.add(cb.le(root.get("frequency"), maxFrequency));
         }
+        if (minCores != null) {
+            predicates.add(cb.ge(root.get("cores"), minCores));
+        }
+        if (maxCores != null) {
+            predicates.add(cb.le(root.get("cores"), maxCores));
+        }
         //Формируем запрос
         cq.select(root).
                 where(predicates.toArray(new Predicate[0]))     //Выглядит как магия, но именно так превращаем список в массив
@@ -59,5 +70,10 @@ public class ProcessorService {
 
         //Выполняем запрос и сразу возвращаем список (одной строчкой)
         return em.createQuery(cq).getResultList();
+    }
+
+    public ProcessorDto getById(Long id) {
+        Processor processor = repo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Processor not found"));
+        return new ProcessorDto(processor);
     }
 }

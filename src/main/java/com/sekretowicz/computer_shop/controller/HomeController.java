@@ -36,8 +36,10 @@ public class HomeController {
                                  @RequestParam(required = false) Integer maxPrice,
                                  @RequestParam(required = false) Integer minFrequency,
                                  @RequestParam(required = false) Integer maxFrequency,
+                                 @RequestParam(required = false) Integer minCores,
+                                 @RequestParam(required = false) Integer maxCores,
             Model model) {
-        List<Processor> processors = processorService.get(title, minPrice, maxPrice, minFrequency, maxFrequency); // или твой метод
+        List<Processor> processors = processorService.get(title, minPrice, maxPrice, minFrequency, maxFrequency, minCores, maxCores); // или твой метод
         model.addAttribute("processors", processors);
         return "processors"; // -> processors.html
     }

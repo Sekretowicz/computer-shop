@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/controllers")
+@RequestMapping("/api/processors")
 public class ProcessorController {
     @Autowired
     private ProcessorService service;
@@ -18,10 +18,17 @@ public class ProcessorController {
                                   @RequestParam(required = false) Integer minPrice,
                                   @RequestParam(required = false) Integer maxPrice,
                                   @RequestParam(required = false) Integer minFrequency,
-                                  @RequestParam(required = false) Integer maxFrequency) {
-        return service.get(title, minPrice, maxPrice, minFrequency, maxFrequency)
+                                  @RequestParam(required = false) Integer maxFrequency,
+                                  @RequestParam(required = false) Integer minCores,
+                                  @RequestParam(required = false) Integer maxCores) {
+        return service.get(title, minPrice, maxPrice, minFrequency, maxFrequency, minCores, maxCores)
                 .stream()
                 .map(ProcessorDto::new)
                 .toList();
+    }
+
+    @GetMapping("/{id}")
+    public ProcessorDto getById(@PathVariable Long id) {
+        return service.getById(id);
     }
 }

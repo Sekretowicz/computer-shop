@@ -3,12 +3,11 @@ package com.sekretowicz.computer_shop;
 import com.sekretowicz.computer_shop.model.Processor;
 import com.sekretowicz.computer_shop.repo.ProcessorRepo;
 import com.sekretowicz.computer_shop.service.ProcessorService;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +22,7 @@ class ProcessorServiceTests {
 
     @Autowired
     private ProcessorRepo processorRepo;
-
+    @BeforeEach
     public void prepare() {
         List<Processor> processors = new LinkedList<>();
 
@@ -49,16 +48,14 @@ class ProcessorServiceTests {
     }
 
     @Test
-    public void testCriteriaApiByTitle () {
-        this.prepare();
-        List<Processor> created = processorService.get("Intel", null, null,null,null);
-        assertEquals(5,created.size());
-    }
+    public void testCriteriaApi () {
+        List<Processor> created = processorService.get("Intel", null, null,null,null,null,null);
+        assertEquals(5,created.size(),"title doesn`t match");
 
-    @Test
-    public void testCriteriaApiByMinAndMaxFrequency () {
-        this.prepare();
-        List<Processor> created = processorService.get(null, null, null,5100,5300);
-        assertEquals(2,created.size());
+        created = processorService.get(null, null, null,5100,5300,null,null);
+        assertEquals(2,created.size(),"frequency doesn`t match");
+
+        created = processorService.get(null,null,null,null,null,10,18);
+        assertEquals(3,created.size(),"cores doesn`t match");
     }
 }
