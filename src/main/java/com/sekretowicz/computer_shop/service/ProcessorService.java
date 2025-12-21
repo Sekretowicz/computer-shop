@@ -1,6 +1,7 @@
 package com.sekretowicz.computer_shop.service;
 
 import com.sekretowicz.computer_shop.dto.ProcessorDto;
+import com.sekretowicz.computer_shop.exception.NotFoundException;
 import com.sekretowicz.computer_shop.model.Processor;
 import com.sekretowicz.computer_shop.repo.ProcessorRepo;
 import jakarta.persistence.EntityManager;
@@ -73,7 +74,7 @@ public class ProcessorService {
     }
 
     public ProcessorDto getById(Long id) {
-        Processor processor = repo.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Processor not found"));
+        Processor processor = repo.findById(id).orElseThrow(() -> new NotFoundException(String.format("Processor with id %d not found", id)));
         return new ProcessorDto(processor);
     }
 }

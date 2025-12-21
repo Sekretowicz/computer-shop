@@ -29,7 +29,7 @@ public class DataInitializer implements CommandLineRunner {
     @Transactional
     public void run(String... args) {
         // Do not duplicate data on every restart
-        /* if (processorRepository.count() > 0 || graphicsCardRepository.count() > 0 || pcBuildRepository.count() > 0) {
+        if (processorRepository.count() > 0 || graphicsCardRepository.count() > 0 || pcBuildRepository.count() > 0) {
             return;
         }
 
@@ -73,9 +73,5 @@ public class DataInitializer implements CommandLineRunner {
         budgetPc.setProcessor(i5);
         budgetPc.setGraphicsCard(rx6600);
         pcBuildRepository.save(budgetPc);
-
-
-        List<Object> foo = new ArrayList<Object>();
-*/
     }
 }

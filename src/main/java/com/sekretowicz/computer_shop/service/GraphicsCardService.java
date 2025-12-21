@@ -1,5 +1,9 @@
 package com.sekretowicz.computer_shop.service;
+import com.sekretowicz.computer_shop.dto.GraphicsCardDto;
+import com.sekretowicz.computer_shop.dto.ProcessorDto;
+import com.sekretowicz.computer_shop.exception.NotFoundException;
 import com.sekretowicz.computer_shop.model.GraphicsCard;
+import com.sekretowicz.computer_shop.model.Processor;
 import com.sekretowicz.computer_shop.repo.GraphicsCardRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -7,14 +11,17 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.LinkedList;
 import java.util.List;
 
 @Service
 public class GraphicsCardService {
     @Autowired
-    private GraphicsCardRepo graphicsCardRepo;
+    private GraphicsCardRepo repo;
     @Autowired
     private EntityManager em;
 
@@ -48,5 +55,10 @@ public class GraphicsCardService {
         cq.select(root).where(predicates.toArray(new Predicate[0])).orderBy(cb.asc(root.get("price")));
 
         return em.createQuery(cq).getResultList();
+    }
+
+    public GraphicsCardDto getById(Long id) {
+        GraphicsCard graphicsCard = repo.findById(id).orElseThrow(() -> new NotFoundException(String.format("GraphicsCard with id %d not found", id)));
+        return new GraphicsCardDto(graphicsCard);
     }
 }
