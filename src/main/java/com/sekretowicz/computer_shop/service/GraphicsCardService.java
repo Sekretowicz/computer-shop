@@ -1,9 +1,8 @@
 package com.sekretowicz.computer_shop.service;
+
 import com.sekretowicz.computer_shop.dto.GraphicsCardDto;
-import com.sekretowicz.computer_shop.dto.ProcessorDto;
 import com.sekretowicz.computer_shop.exception.NotFoundException;
 import com.sekretowicz.computer_shop.model.GraphicsCard;
-import com.sekretowicz.computer_shop.model.Processor;
 import com.sekretowicz.computer_shop.repo.GraphicsCardRepo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.criteria.CriteriaBuilder;
@@ -11,10 +10,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -30,11 +26,12 @@ public class GraphicsCardService {
                                   Integer maxMemory,
                                   Integer minPrice,
                                   Integer maxPrice) {
-
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery <GraphicsCard> cq = cb.createQuery(GraphicsCard.class);
         Root<GraphicsCard> root = cq.from(GraphicsCard.class);
         List<Predicate> predicates = new LinkedList<>();
+
+
 
         if (title != null) {
             predicates.add(cb.like(root.get("title"), "%" + title + "%"));

@@ -10,11 +10,8 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,7 +21,8 @@ public class ProcessorService {
     private ProcessorRepo repo;
     @Autowired
     private EntityManager em;
-
+    @Autowired
+    private DataValidator dv;
     //Поиск процессоров по заданным параметрам - все они необязательные
     @Transactional
     public List<Processor> get(String title,
@@ -47,8 +45,11 @@ public class ProcessorService {
             predicates.add(cb.like(root.get("title"), "%" + title + "%"));
         }
         if (minPrice != null) {
+            if (minPrice < 0) {
+                dv.isNotNegative(minPrice, "Minimal price");
+            }
             predicates.add(cb.ge(root.get("price"), minPrice));
-        }   
+        }
         if (maxPrice != null) {
             predicates.add(cb.le(root.get("price"), maxPrice));
         }

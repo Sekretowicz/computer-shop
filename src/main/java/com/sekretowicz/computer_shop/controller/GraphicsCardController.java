@@ -20,4 +20,9 @@ public class GraphicsCardController {
                                       @RequestParam(required = false) Integer minPrice) {
         return service.get(title, minMemory, maxMemory, minPrice, maxPrice).stream().map(GraphicsCardDto::new).toList();
     }
+
+    @GetMapping("/{id}")
+    public GraphicsCardDto getById(@PathVariable Long id) {
+        return service.getById(id);
+    }
 }
