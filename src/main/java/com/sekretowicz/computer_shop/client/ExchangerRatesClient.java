@@ -7,7 +7,7 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class ExchangerRatesClient {
     private String BASE_URL = "https://v6.exchangerate-api.com/v6";
-    private String API_KEY = "";
+    private String API_KEY = "87e9f21ac826800c0a8f88b0";
 
     public ExchangeRatesResponse getRates() {
         RestTemplate rt = new RestTemplate();
