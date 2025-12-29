@@ -45,39 +45,27 @@ public class ProcessorService {
             predicates.add(cb.like(root.get("title"), "%" + title + "%"));
         }
         if (minPrice != null) {
-            if (minPrice < 0) {
-                dv.isNotNegative(minPrice, "Minimal price");
-            }
+            dv.isNotNegative(minPrice, "Minimal price");
             predicates.add(cb.ge(root.get("price"), minPrice));
         }
         if (maxPrice != null) {
-            if (maxPrice < 0) {
-                dv.isNotNegative(maxPrice, "Maximum price");
-            }
+            dv.isNotNegative(maxPrice, "Maximum price");
             predicates.add(cb.le(root.get("price"), maxPrice));
         }
         if (minFrequency != null) {
-            if (minFrequency < 0) {
-                dv.isNotNegative(minFrequency, "Minimal frequency");
-            }
+            dv.isNotNegative(minFrequency, "Minimal frequency");
             predicates.add(cb.ge(root.get("frequency"), minFrequency));
         }
         if (maxFrequency != null) {
-            if (maxFrequency < 0) {
-                dv.isNotNegative(maxFrequency, "Maximum frequency");
-            }
+            dv.isNotNegative(maxFrequency, "Maximum frequency");
             predicates.add(cb.le(root.get("frequency"), maxFrequency));
         }
         if (minCores != null) {
-            if (minCores < 0) {
-                dv.isNotNegative(minCores, "Minimal cores");
-            }
+            dv.isNotNegative(minCores, "Minimal cores");
             predicates.add(cb.ge(root.get("cores"), minCores));
         }
         if (maxCores != null) {
-            if (maxCores < 0) {
-                dv.isNotNegative(maxCores, "Maximum cores");
-            }
+            dv.isNotNegative(maxCores, "Maximum cores");
             predicates.add(cb.le(root.get("cores"), maxCores));
         }
         //Формируем запрос

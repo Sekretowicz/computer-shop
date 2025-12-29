@@ -11,6 +11,8 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,7 +22,10 @@ public class GraphicsCardService {
     private GraphicsCardRepo repo;
     @Autowired
     private EntityManager em;
+    @Autowired
+    private DataValidator dv;
 
+    @Transactional
     public List<GraphicsCard> get(String title,
                                   Integer minMemory,
                                   Integer maxMemory,
@@ -31,25 +36,29 @@ public class GraphicsCardService {
         Root<GraphicsCard> root = cq.from(GraphicsCard.class);
         List<Predicate> predicates = new LinkedList<>();
 
-
-
         if (title != null) {
             predicates.add(cb.like(root.get("title"), "%" + title + "%"));
         }
         if (minPrice != null) {
+            dv.isNotNegative(minPrice, "Minimal price");
             predicates.add(cb.ge(root.get("price"), minPrice));
         }
         if (maxPrice != null) {
+            dv.isNotNegative(maxPrice, "Maximum price");
             predicates.add(cb.le(root.get("price"), maxPrice));
         }
         if (minMemory != null) {
+            dv.isNotNegative(minMemory, "Minimal memory");
             predicates.add(cb.ge(root.get("memory"), minMemory));
         }
         if (maxMemory != null) {
+            dv.isNotNegative(maxMemory, "Maximum memory");
             predicates.add(cb.le(root.get("memory"), maxMemory));
         }
 
-        cq.select(root).where(predicates.toArray(new Predicate[0])).orderBy(cb.asc(root.get("price")));
+        cq.select(root).
+                where(predicates.toArray(new Predicate[0])).
+                orderBy(cb.asc(root.get("price")));
 
         return em.createQuery(cq).getResultList();
     }
